@@ -1,6 +1,13 @@
 {
-	"name": "@softlightweb/svelte",
-	"version": "0.0.3",
+	"name": "@codeunic/ui-svelte",
+	"version": "0.0.4",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/softlightwebgroup/svelte.git",
+		"directory": "svelte"
+	},
+	"license": "MIT",
+	"private": false,
 	"scripts": {
 		"dev": "vite dev --port 3001",
 		"build": "vite build && npm run package",
