@@ -1,0 +1,6 @@
+@mixin size($suffix, $font-size, $padding) {
+  &-#{$suffix} {
+    font-size: $font-size;
+    padding: $padding;
+  }
+}
