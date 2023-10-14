@@ -1,6 +1,6 @@
 {
 	"name": "@softlightweb/svelte",
-	"version": "0.0.21",
+	"version": "0.0.22",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/softlightwebgroup/svelte.git",
