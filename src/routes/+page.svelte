@@ -1,3 +1,7 @@
-<script lang='ts'></script>
+<script lang='ts'>
+	import Button from '$lib/components/button/Button.svelte';
+</script>
 
-<a href='/buttons'>Buttons</a>
+<Button href='/buttons'>Buttons</Button>
+<Button href='/button-group'>Button Group</Button>
+<Button href='/navbar'>Navbar</Button>

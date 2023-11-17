@@ -1,28 +1,28 @@
 .justify-center {
-  justify-content: center;
+	justify-content: center;
 }
 
 .items-center {
-  align-items: center;
+	align-items: center;
 }
 
 .inline-flex {
-  display: inline-flex;
+	display: inline-flex;
 }
 
 .flex {
-  display: flex;
+	display: flex;
 }
 
 .text-center {
-  text-align: center;
+	text-align: center;
 }
 
 .font-medium {
-  font-weight: 500;
+	font-weight: 500;
 }
 
 .text-white {
-  --sft-text-opacity: 1;
-  color: rgb(255 255 255 / var(--sft-text-opacity));
+	--sft-text-opacity: 1;
+	color: rgb(255 255 255 / var(--sft-text-opacity));
 }

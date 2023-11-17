@@ -16,7 +16,7 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			'softlightweb': path.resolve(process.cwd(), './src/lib/index.js')
+			softlightweb: path.resolve(process.cwd(), './src/lib/index.js')
 		}
 	}
 });
