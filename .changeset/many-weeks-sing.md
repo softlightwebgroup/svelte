@@ -2,4 +2,4 @@
 '@softlightweb/svelte': patch
 ---
 
-Text
+Initial Change
