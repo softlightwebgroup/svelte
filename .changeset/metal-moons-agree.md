@@ -1,0 +1,5 @@
+---
+'@softlightweb/svelte': patch
+---
+
+Text

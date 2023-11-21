@@ -1,3 +1,6 @@
 :root {
   --soft-spacing: 1rem;
+  @each $key, $value in $spacing {
+    --soft-spacing-#{$key}: #{$value};
+  }
 }
