@@ -1,8 +1,10 @@
 <script lang='ts'>
-	let { ...rest } = $props();
+	import { fnClassnames } from '$lib';
+
+	let { class: className, ...rest } = $props();
 </script>
 
-<header {...rest} class='atom-navbar'>
+<header {...rest} class={fnClassnames("atom-navbar", className)}>
 	<slot></slot>
 </header>
 
