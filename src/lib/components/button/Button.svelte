@@ -1,10 +1,10 @@
 <script lang='ts'>
 	import { fnClassnames } from '$lib/functions/classnames.js';
-	import type { ButtonType, SizeType } from '$lib';
-	import { getContext } from 'svelte';
+	import type { SizeType } from '$lib';
+	import { createEventDispatcher, getContext } from 'svelte';
+	import type { TButtonProps } from '$lib/props/button.props.js';
 
-	type ButtonColor = keyof typeof colorClasses;
-
+	const dispatch = createEventDispatcher();
 	const group: SizeType = getContext('group');
 
 	const colorClasses = {
@@ -16,6 +16,8 @@
 		info: 'soft-button--color-info',
 		warning: 'soft-button--color-warning',
 		primary: 'soft-button--color-primary',
+		secondary: 'soft-button--color-secondary',
+		success: 'soft-button--color-success',
 		purple: 'soft-button--color-purple',
 		red: 'soft-button--color-red',
 		yellow: 'soft-button--color-yellow',
@@ -45,33 +47,53 @@
 		xl: 'soft-button--size-xl'
 	};
 
-	export let pill: boolean = false;
-	export let outline: boolean = false;
-	export let size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = group ? 'sm' : 'md';
-	export let href: string | undefined = undefined;
-	export let type: ButtonType = 'button';
-	export let color: ButtonColor = group ? (outline ? 'dark' : 'alternative') : 'primary';
-	export let shadow: boolean = false;
+	let { tag, pill, block, disabled, outline, size = group ? 'sm' : 'md', href, type = 'button', color = group ? (outline ? 'dark' : 'alternative') : 'primary', shadow, ...restProps } = $props<TButtonProps>();
 
 	const hasBorder = () => outline || color === 'alternative' || color === 'light';
 
-	let buttonClass: string;
-
-	$: buttonClass = fnClassnames(
+	let buttonClass: string = $derived(fnClassnames(
 		'soft-button',
-		sizeClasses[size],
+		sizeClasses[group?.size || size],
 		outline ? outlineClasses[color] : colorClasses[color],
 		hasBorder() ? 'soft-button--border' : '',
 		shadow ? 'soft-button--shadow' : '',
-		pill ? 'soft-button--pill' : ''
-	);
+		pill ? 'soft-button--pill' : '',
+		group ? 'soft-button--group' : '',
+		disabled ? 'soft-button--disabled' : '',
+		block ? 'soft-button--block' : ''
+	));
+
+	const onClick = (e) => {
+		group?.onClick({ event: e });
+		dispatch('click', { event: e });
+	};
+
+	let extraProps = {};
+	const fnDisabled = (disabled: boolean) => {
+		extraProps = {
+			...extraProps,
+			disabled
+		};
+
+		if (!disabled) {
+			delete extraProps.disabled;
+		}
+	};
+
+	$effect(() => {
+		fnDisabled(disabled);
+	});
 </script>
 
 <svelte:element
-	{...$$restProps}
-	class={buttonClass} {href} on:change
-	on:click on:keydown on:keyup on:mouseenter on:mouseleave on:touchcancel on:touchend
-	on:touchstart|passive role={href ? 'link' : 'button'} this={href ? 'a' : 'button'} type={href ? undefined : type}>
+	{...restProps}
+	{...extraProps} class={buttonClass}
+	{href}
+	on:change
+	on:click={onClick} on:keydown on:keyup on:mouseenter on:mouseleave on:touchcancel on:touchend
+	on:touchstart|passive role={href ? 'link' : 'button'} this={tag || (href ? 'a' : 'button')}
+	type={href ? undefined : type}
+>
 	<slot />
 </svelte:element>
 
@@ -86,9 +108,11 @@
     justify-content: center;
     position: relative;
     border: 0;
+    gap: var(--spacing-sm);
     border-radius: 0.5rem;
     text-decoration: none;
     transition: opacity 0.3s ease-in-out;
+    line-height: 1;
 
     &--border {
       border: 1px solid var(--color-gray);
@@ -100,6 +124,28 @@
 
     &--pill {
       border-radius: 9999px;
+    }
+
+    &--block {
+      width: 100%;
+    }
+
+    &--group {
+      &:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      &:not(:first-child):not(:last-child) {
+        border-left-width: 0;
+        border-right-width: 0;
+        border-radius: 0;
+      }
+
+      &:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
     }
 
     &--color {
@@ -130,6 +176,17 @@
 
     &:hover {
       opacity: .8;
+    }
+
+    &[disabled] {
+      background-color: rgb(44, 44, 44);
+      border-color: rgb(44, 44, 44);
+      color: rgb(124, 124, 124);
+      opacity: .6;
+
+      &:hover {
+        cursor: default;
+      }
     }
   }
 </style>
